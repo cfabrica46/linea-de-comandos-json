@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"os"
 )
@@ -20,4 +21,17 @@ func main() {
 
 	defer archivo.Close()
 
+	user1 := user{Name: "cfabrica46", Password: "cesaruwu"}
+
+	user2 := user{Name: "carlos", Password: "carlosxd"}
+
+	users := []user{user1, user2}
+
+	data, err := json.MarshalIndent(users, "", " ")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	archivo.Write(data)
 }
