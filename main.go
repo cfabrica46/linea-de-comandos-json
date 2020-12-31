@@ -21,6 +21,7 @@ func main() {
 	var acceso bool
 
 	login := flag.NewFlagSet("login", flag.ExitOnError)
+	register := flag.NewFlagSet("register", flag.ExitOnError)
 
 	flag.Usage = func() {
 
@@ -90,6 +91,29 @@ login Para ingresar`
 			fmt.Println("Username y/o Password incorrectas")
 		}
 
+	case "register":
+		username := register.String("username", "", "Introduce el username que desees")
+		password := register.String("password", "", "Introduce la password que desees")
+		register.Parse(os.Args[2:])
+
+		nuevoUser := user{Name: *username, Password: *password}
+
+		users = append(users, nuevoUser)
+
+		nuevaData, err := json.MarshalIndent(users, "", " ")
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		archivo.Seek(0, 0)
+
+		_, err = archivo.Write(nuevaData)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("Nuevo usuario registrado")
 	}
 
 }
