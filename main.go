@@ -113,7 +113,7 @@ login Para ingresar`
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Nuevo usuario registrado")
+		fmt.Println("Nuevo usuario registrado", username)
 	}
 
 }
