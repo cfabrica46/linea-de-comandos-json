@@ -7,6 +7,8 @@ import (
 	"io"
 	"log"
 	"os"
+	"regexp"
+	"strconv"
 )
 
 type user struct {
@@ -16,9 +18,11 @@ type user struct {
 
 func main() {
 
+	var intAux, indice int
 	var data []byte
 	var users []user
 	var acceso bool
+	var registeredNames []string
 
 	login := flag.NewFlagSet("login", flag.ExitOnError)
 	register := flag.NewFlagSet("register", flag.ExitOnError)
@@ -26,7 +30,8 @@ func main() {
 	flag.Usage = func() {
 
 		documentacion := `Las opciones son
-login Para ingresar`
+login Para ingresar
+register para registrarse`
 
 		fmt.Fprintf(os.Stderr, "%s\n", documentacion)
 	}
@@ -96,6 +101,40 @@ login Para ingresar`
 		password := register.String("password", "", "Introduce la password que desees")
 		register.Parse(os.Args[2:])
 
+		for i := range users {
+
+			if users[i].Name == *username {
+
+				for index := range users {
+
+					pattern := "^" + users[index].Name
+
+					match, _ := regexp.MatchString(pattern, *username)
+
+					if match == true {
+
+						registeredNames = append(registeredNames, users[index].Name)
+					}
+				}
+
+				for {
+
+					*username = *username + strconv.Itoa(intAux)
+
+					if *username != registeredNames[indice] {
+						break
+					} else {
+						intAux++
+					}
+
+				}
+				break
+			}
+
+		}
+
+		fmt.Println("El username que eligió ya esta registrado pero le asignamos este nombre de usuario:", *username)
+
 		nuevoUser := user{Name: *username, Password: *password}
 
 		users = append(users, nuevoUser)
@@ -113,7 +152,7 @@ login Para ingresar`
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Nuevo usuario registrado", username)
+		fmt.Println("Nuevo usuario registrado", *username)
 	}
 
 }

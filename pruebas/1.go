@@ -1,10 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"regexp"
+)
 
 func main() {
 
-	slice := []int{1, 2, 3}
+	match, _ := regexp.MatchString("[a-zA-Z0-9]+", "cesar2")
 
-	fmt.Println(slice[2:])
+	fmt.Println(match)
+
+	r, _ := regexp.Compile("[a-zA-Z0-9]+")
+
 }
