@@ -152,7 +152,7 @@ register para registrarse`
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Nuevo usuario registrado", *username)
+		fmt.Println("Nuevo usuario registrado ", *username)
 	}
 
 }
